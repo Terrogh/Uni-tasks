@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
-#include <errno.h>
 #include <limits.h>
 
 #include "transformer.h"
@@ -12,12 +11,10 @@ char *read_argument(int argc, char **argv, int *word_index) {
     assert(argc == 3);   /* program name, index, and string */
 
     /* Parse the index as a decimal integer */
-    char *endptr;
-    errno = 0;
-    long val = strtol(argv[1], &endptr, 10);
-    assert(errno == 0 && endptr != argv[1] && *endptr == '\0');
+    int val = atoi(argv[1]);
+    assert(argv[1]);
     /* Ensure it fits in an int (optional but safe) */
-    assert(val >= INT_MIN && val <= INT_MAX);
+    assert(val >= 0 && val <= INT_MAX);
     *word_index = (int)val;
 
     /* Read the multi‑line string from argv[2] */

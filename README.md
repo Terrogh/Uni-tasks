@@ -29,6 +29,8 @@ three owt one
 d c b a
 ```
 
+---
+
 # Second Task
 
 A file‑based message bus written in C++. Multiple terminals exchange messages through a single binary file. Each terminal is a separate process, identified by its terminal ID (passed as the first argument), and can only send as itself and read its own messages.

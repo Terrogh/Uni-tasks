@@ -28,3 +28,38 @@ dlrow hello
 three owt one
 d c b a
 ```
+
+# Second Task
+
+A file‑based message bus written in C++. Multiple terminals exchange messages through a single binary file. Each terminal is a separate process, identified by its terminal ID (passed as the first argument), and can only send as itself and read its own messages.
+
+Built around a fixed‑size binary layout, `fcntl` file locking, and per‑record FNV‑1a checksums so that concurrent access and partial writes cannot silently corrupt the bus.
+
+---
+
+## Build
+
+```bash
+gcc -std=c++17 -Wall -Wextra -O2 -o msgbus msgbus.cpp
+```
+
+## Usage
+
+```bash
+./msgbus <terminal_id> init
+./msgbus <terminal_id> send <receiver_id> "<message>"
+./msgbus <terminal_id> read
+./msgbus <terminal_id> clean
+```
+
+## Example
+
+```bash
+./msgbus 1 init
+./msgbus 1 send 2 "hello from terminal 1"
+./msgbus 2 read
+# terminal 2: messages for this terminal:
+#   [guid=1 from terminal 1] hello from terminal 1
+./msgbus 1 clean
+# clean done: 0 message(s) kept
+```
